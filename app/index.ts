@@ -8,7 +8,7 @@ import { dbConnection } from './config/dabatase';
 import { Redis } from './utils/redis';
 
 import { TwitterService } from './services/twitter.service';
-import {AccountActivityService} from './services/account-activity.service';
+import { AccountActivityService } from './services/account-activity.service';
 
 const port: number = config.SERVER_PORT;
 const app: Application = express();
