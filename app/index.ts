@@ -10,8 +10,13 @@ import { Redis } from './utils/redis';
 import { TwitterService } from './services/twitter.service';
 import { AccountActivityService } from './services/account-activity.service';
 
+import { Routes } from './routes';
+
 const port: number = config.SERVER_PORT;
 const app: Application = express();
+
+Routes.init(app);
+
 const server: Server = http.createServer(app);
 
 server.listen(port, async (): Promise<void> => {
