@@ -3,7 +3,7 @@ import { Response } from 'request';
 import request from 'request-promise';
 import queryString from 'querystring';
 
-import { RequestTokenResponse, TweetObject, TwitterError } from '../types';
+import { RequestTokenResponse, TwitterError } from '../types';
 
 import { logger } from '../config/logger';
 
@@ -238,7 +238,7 @@ class TwitterService {
 		// { "errors": [ { "code": 88, "message": "Rate limit exceeded" } ] }
 		const obj: TwitterError = error;
 
-		if (obj.errors[0].code === TwitterService.RATE_LIMIT_CODE) {
+		if (obj.errors && obj.errors[0].code === TwitterService.RATE_LIMIT_CODE) {
 			const now: Date = new Date();
 			const minuteToWait: number = 15 * 60 * 1000;
 			// minuteToWait * 1000 because the timestamp is in millisecond
@@ -335,6 +335,7 @@ class TwitterService {
 			(error: any, data: ResponseData, response: Response) => {
 			if (error) {
 				logger.error(error);
+
 				TwitterService.handleRateLimit(error);
 
 				return;
@@ -362,6 +363,7 @@ class TwitterService {
 			(error: any, data: ResponseData, response: Response) => {
 				if (error) {
 					logger.error(error);
+
 					TwitterService.handleRateLimit(error, tweetId);
 				}
 			});
@@ -369,21 +371,40 @@ class TwitterService {
 
 	/**
 	 * Use of Twitter Stream API listen for tweet with the hastag #caparledev and retweet them
+	 *
+	 * https://developer.twitter.com/en/docs/tweets/filter-realtime/api-reference/post-statuses-filter
 	 */
 	public static initializeStream(): void {
-		// https://developer.twitter.com/en/docs/tweets/filter-realtime/api-reference/post-statuses-filter
 		TwitterService.stream = TwitterService.client.stream('statuses/filter', {
-			track: '#caparledev',
+			track: '#cadev',
 		});
 
-		TwitterService.stream.on('data', (event: TweetObject) => {
+		TwitterService.stream.on('data', async (event: any): Promise<void> => {
 			// console.log(event);
-				TwitterService.retweet(event.id_str);
+			const tweetId: string = event.retweeted_status ? event.retweeted_status.id_str : event.id_str;
+			const tweetKey: string = `cpd_${tweetId}`;
+
+			/**
+			 * In the normal behavior, when the bot account retweet a tweet containing the hashtag we are streaming
+			 * the retweet is captured by the stream and we send the request to retweet this, we got an error from twitter
+			 * saying the tweet is already retweeted by the account.
+			 * To handle this, we save the tweet id in redis and if it exists, we don't send the request to the API anymore
+			 */
+			Redis.get(tweetKey)
+				.then((value: string|null): void => {
+					if (!value) {
+						Redis.set(tweetKey, new Date().getTime().toString())
+							.then((value: boolean): void => {
+								// The tweet hasn't been retweeted yet so we can proceed
+								TwitterService.retweet(tweetId);
+						})
+					}
+				});
 		});
 
 		TwitterService.stream.on('error', (error: any) => {
 			logger.error(error);
-			throw error;
+			// throw error;
 		});
 	}
 

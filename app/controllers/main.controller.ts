@@ -74,9 +74,9 @@ class MainController {
 			}
 
 			res.json({ message: 'success' });
+		} else {
+			res.status(400).json({ message: 'Failed to retrieve access token' });
 		}
-
-		res.status(400).json({ message: 'Failed to retrieve access token' });
 	}
 
 	/**
@@ -132,7 +132,7 @@ class MainController {
 	 */
 	public static async activityUpdate(req: Request, res: Response, next: NextFunction): Promise<void> {
 		try {
-			console.log(req.body);
+			// console.log(req.body);
 
 			const activity: Activity = req.body;
 
@@ -146,8 +146,8 @@ class MainController {
 						const registrationData: Registration = extractRegistrationData(tweetObjects[i]);
 
 						const registration: IRegistration|null = await RegistrationModel.findOne({
-																																											 userId: registrationData.userId,
-																																										 });
+						  userId: registrationData.userId,
+					 	});
 
 						if (!registration) {
 							await RegistrationModel.create([registrationData]);
@@ -168,21 +168,6 @@ class MainController {
 
 							console.log('New registration recheck!');
 						}
-					} else if (text.startsWith(`@${BOT_TWITTER_NAME} s`)) {
-						const array: string[] = text.split(`@${BOT_TWITTER_NAME} s`);
-
-						if (array.length >= 2) {
-							const q: string =  encodeURI(`@${BOT_TWITTER_NAME} ${array[1].trim()}`);
-							const message: string = `https://twitter.com/search?q=${q}&src=typed_query`;
-
-							if (message.length > 280) {
-								logger.info(`The tweet is too long: ${message}`);
-
-								return;
-							}
-							TwitterService.replyToUser(tweetObjects[i].id_str, tweetObjects[i].user.screen_name, message);
-						}
-						// https://twitter.com/search?q=%40myshop237&src=typed_query
 					} else {
 						console.log('Unknown action! => ', text);
 					}
