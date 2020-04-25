@@ -7,7 +7,9 @@ import { RequestTokenResponse, TweetObject, TwitterError } from '../types';
 
 import { logger } from '../config/logger';
 
-import { FAILURE_REGISTER_MESSAGE, SUCCESS_REGISTER_MESSAGE, TWEET_PREFIX_KEY } from '../utils/constants';
+import {
+	FAILURE_REGISTER_MESSAGE, SUCCESS_REGISTER_MESSAGE, TWEET_PREFIX_KEY, TWIITTER_APP_INIT_SUCCESS
+} from '../utils/constants';
 import { Redis } from '../utils/redis';
 
 /**
@@ -50,6 +52,8 @@ class TwitterService {
 		TwitterService.accessTokenSecret = accessTokenSecret;
 
 		TwitterService.getClient();
+
+		logger.info(TWIITTER_APP_INIT_SUCCESS);
 	}
 
 	/**
