@@ -20,3 +20,9 @@ export interface IAccount extends Document {
 	accessTokenSecret: string;
 	expirationDate: number; // timestamp
 }
+
+export interface AccountActivitySubscription {
+	environment: string,
+	application_id: string,
+	subscriptions: any[]
+}
