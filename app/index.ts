@@ -8,6 +8,7 @@ import { dbConnection } from './config/dabatase';
 import { Redis } from './utils/redis';
 
 import { TwitterService } from './services/twitter.service';
+import {AccountActivityService} from './services/account-activity.service';
 
 const port: number = config.SERVER_PORT;
 const app: Application = express();
@@ -16,6 +17,11 @@ const server: Server = http.createServer(app);
 server.listen(port, async (): Promise<void> => {
 	// Initialize Twitter application
 	TwitterService.init(
+		config.CONSUMER_KEY, config.CONSUMER_SECRET, config.ACCESS_TOKEN_KEY, config.ACCESS_TOKEN_SECRET,
+	);
+
+	// Initialize Twitter Account Activity Service
+	AccountActivityService.init(
 		config.CONSUMER_KEY, config.CONSUMER_SECRET, config.ACCESS_TOKEN_KEY, config.ACCESS_TOKEN_SECRET,
 	);
 
