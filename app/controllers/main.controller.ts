@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-import { BOT_TWITTER_NAME, TWITTER_CALLBACK_URL } from '../config';
+import {BOT_TWITTER_NAME, HASHTAG_TO_TRACK, TWITTER_CALLBACK_URL} from '../config';
 import { logger } from '../config/logger';
 
 import { Activity, TweetObject, UserAccessTokenResponse } from '../types';
@@ -159,7 +159,7 @@ class MainController {
 	public static async stream(): Promise<void> {
 			TwitterService.initializeStream();
 
-			logger.info('You are now streaming hashtag #caparledev');
+			logger.info(`You are now streaming hashtag ${HASHTAG_TO_TRACK}`);
 	}
 
 	/**

@@ -356,6 +356,8 @@ class TwitterService {
 							.then((value: boolean): void => {
 								// The tweet hasn't been retweeted yet so we can proceed
 								TwitterService.retweet(tweetId);
+
+								// TODO Notify registered account
 						})
 					}
 				});
