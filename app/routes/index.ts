@@ -6,6 +6,7 @@ import cors from 'cors';
 
 import { RegistrationRoute } from './registration.route';
 import { AccountActivityRoute } from './account-activity.route';
+import { MainRoute } from './main.route';
 
 /**
  * Global router configuration of the application
@@ -29,6 +30,7 @@ class Routes {
 
 		// Endpoints
 		app.use('/', new AccountActivityRoute().router);
+		app.use('/', new MainRoute().router);
 		app.use('/', new RegistrationRoute().router);
 
 		// Static content

@@ -63,6 +63,7 @@ class MainController {
 					accountName: response.screen_name,
 					accessToken: oauthToken,
 					accessTokenSecret: oauthTokenSecret,
+					isBot: true,
 				}]);
 
 				console.log('Account created !');
