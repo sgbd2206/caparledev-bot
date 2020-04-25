@@ -143,6 +143,8 @@ class MainController {
 
 				if (text.startsWith(`@${BOT_TWITTER_NAME} subscribe`)) {
 					RegistrationService.subscribe(tweetObjects[i]);
+				} else if (text.startsWith(`@${BOT_TWITTER_NAME} unsubscribe`)) {
+					RegistrationService.unsubscribe(tweetObjects[i]);
 				} else {
 					console.log('Unknown action! => ', text);
 				}

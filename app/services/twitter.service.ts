@@ -7,9 +7,7 @@ import { RequestTokenResponse, TwitterError } from '../types';
 
 import { logger } from '../config/logger';
 
-import {
-	FAILURE_REGISTER_MESSAGE, SUCCESS_REGISTER_MESSAGE, TWEET_PREFIX_KEY, TWIITTER_APP_INIT_SUCCESS
-} from '../utils/constants';
+import { TWEET_PREFIX_KEY, TWIITTER_APP_INIT_SUCCESS } from '../utils/constants';
 import { Redis } from '../utils/redis';
 
 /**
@@ -303,46 +301,6 @@ class TwitterService {
 					return;
 				}
 			});
-	}
-
-	/**
-	 * When user subscribe to notification, we use this method to respond to his request
-	 *
-	 * @param tweetId
-	 * @param userScreenName
-	 * @param approved
-	 */
-	public static async replyToUserSubscription(
-		tweetId: string, userScreenName: string, approved: boolean,
-	): Promise<void> {
-		const canCall: boolean = await TwitterService.canMakeCall();
-
-		// Checks if can make request due to rate limit exceed
-		if (!canCall) {
-			return;
-		}
-
-		const message: string = approved ? SUCCESS_REGISTER_MESSAGE : FAILURE_REGISTER_MESSAGE;
-
-		const options: RequestParams = {
-			in_reply_to_status_id: tweetId,
-			status: `@${userScreenName} ${message}`,
-		};
-
-		TwitterService.getAccountClient().post(
-			'statuses/update',
-			options,
-			(error: any, data: ResponseData, response: Response) => {
-			if (error) {
-				logger.error(error);
-
-				TwitterService.handleRateLimit(error);
-
-				return;
-			}
-
-			logger.info(`Reply to user [${userScreenName}] with approval status ${approved}`);
-		});
 	}
 
 	/**
