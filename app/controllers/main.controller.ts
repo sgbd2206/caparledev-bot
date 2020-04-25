@@ -3,19 +3,18 @@ import { Request, Response, NextFunction } from 'express';
 import { BOT_TWITTER_NAME, TWITTER_CALLBACK_URL } from '../config';
 import { logger } from '../config/logger';
 
-import { Activity, Registration, TweetObject, UserAccessTokenResponse } from '../types';
-import { IAccount, IRegistration } from '../types/models';
+import { Activity, TweetObject, UserAccessTokenResponse } from '../types';
+import { IAccount } from '../types/models';
 
 import { AccountModel } from '../models/account.model';
-import { RegistrationModel } from '../models/registration.model';
 
 import { TwitterService } from '../services/twitter.service';
 import { AccountActivityService } from '../services/account-activity.service';
 
 import { TWEET_PREFIX_KEY } from '../utils/constants';
-import { extractRegistrationData, isCreateEvent } from '../utils/helpers';
+import { isCreateEvent } from '../utils/helpers';
 import { Redis } from '../utils/redis';
-import {RegistrationService} from '../services/registration.service';
+import { RegistrationService } from '../services/registration.service';
 
 class MainController {
 	/**

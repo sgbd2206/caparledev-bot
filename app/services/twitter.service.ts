@@ -5,6 +5,7 @@ import queryString from 'querystring';
 
 import { RequestTokenResponse, TwitterError } from '../types';
 
+import { HASHTAG_TO_TRACK } from '../config';
 import { logger } from '../config/logger';
 
 import { TWEET_PREFIX_KEY, TWIITTER_APP_INIT_SUCCESS } from '../utils/constants';
@@ -334,7 +335,7 @@ class TwitterService {
 	 */
 	public static initializeStream(): void {
 		TwitterService.stream = TwitterService.client.stream('statuses/filter', {
-			track: '#cadev',
+			track: HASHTAG_TO_TRACK,
 		});
 
 		TwitterService.stream.on('data', async (event: any): Promise<void> => {
