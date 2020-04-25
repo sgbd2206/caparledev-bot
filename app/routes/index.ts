@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 
 import { RegistrationRoute } from './registration.route';
+import { AccountActivityRoute } from './account-activity.route';
 
 /**
  * Global router configuration of the application
@@ -27,6 +28,7 @@ class Routes {
 		app.use(cors());
 
 		// Endpoints
+		app.use('/', new AccountActivityRoute().router);
 		app.use('/', new RegistrationRoute().router);
 
 		// Static content
