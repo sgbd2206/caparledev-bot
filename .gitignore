@@ -62,7 +62,7 @@ typings/
 
 .idea
 .vscode
-log
+logs
 build
 data.json
 yarn.lock
