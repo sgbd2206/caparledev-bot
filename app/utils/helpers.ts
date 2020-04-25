@@ -28,11 +28,6 @@ export const extractRegistrationData: Function = (tweet: TweetObject): Registrat
 		userId: tweet.user.id_str,
 		userName: tweet.user.name,
 		userScreenName:  tweet.user.screen_name,
-		description:  tweet.user.description,
 		protected:  tweet.user.protected,
-		verified:  tweet.user.verified,
-		processed: false,
-		approved: false,
-		retweetCount: 0,
 	};
 };

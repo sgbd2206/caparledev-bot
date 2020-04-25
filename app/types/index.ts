@@ -6,12 +6,7 @@ export type Registration = {
 	userId: string;
 	userName: string;
 	userScreenName: string;
-	description: string;
 	protected: boolean;
-	verified: boolean;
-	processed: boolean;
-	approved: boolean;
-	retweetCount: number;
 };
 
 export type Account = {

@@ -15,6 +15,7 @@ import { AccountActivityService } from '../services/account-activity.service';
 import { TWEET_PREFIX_KEY } from '../utils/constants';
 import { extractRegistrationData, isCreateEvent } from '../utils/helpers';
 import { Redis } from '../utils/redis';
+import {RegistrationService} from '../services/registration.service';
 
 class MainController {
 	/**
@@ -131,55 +132,24 @@ class MainController {
 	 * @return Object
 	 */
 	public static async activityUpdate(req: Request, res: Response, next: NextFunction): Promise<void> {
-		try {
-			// console.log(req.body);
+		// console.log(req.body);
+		const activity: Activity = req.body;
 
-			const activity: Activity = req.body;
+		if (isCreateEvent(activity)) {
+			const tweetObjects: TweetObject[] = activity.tweet_create_events;
 
-			if (isCreateEvent(activity)) {
-				const tweetObjects: TweetObject[] = activity.tweet_create_events;
+			for (let i: number = 0; i < tweetObjects.length; i += 1) {
+				const text: string = tweetObjects[i].text.trim();
 
-				for (let i: number = 0; i < tweetObjects.length; i += 1) {
-					const text: string = tweetObjects[i].text.trim();
-
-					if (text.startsWith(`@${BOT_TWITTER_NAME} register`)) {
-						const registrationData: Registration = extractRegistrationData(tweetObjects[i]);
-
-						const registration: IRegistration|null = await RegistrationModel.findOne({
-						  userId: registrationData.userId,
-					 	});
-
-						if (!registration) {
-							await RegistrationModel.create([registrationData]);
-
-							console.log('New registration!');
-						} else if (registration && registration.processed && !registration.approved) {
-							console.log(registration);
-
-							await RegistrationModel.findOneAndUpdate({ userId: registration.userId }, {
-								userName: registrationData.userName,
-								userScreenName: registrationData.userScreenName,
-								description: registrationData.description,
-								protected: registrationData.protected,
-								verified: registrationData.verified,
-								processed: false,
-								approved: false,
-							});
-
-							console.log('New registration recheck!');
-						}
-					} else {
-						console.log('Unknown action! => ', text);
-					}
+				if (text.startsWith(`@${BOT_TWITTER_NAME} subscribe`)) {
+					RegistrationService.subscribe(tweetObjects[i]);
+				} else {
+					console.log('Unknown action! => ', text);
 				}
 			}
-
-			res.json({ message: 'success' });
-		} catch (err) {
-			logger.error(err);
-
-			res.status(400).json({ message: err.error });
 		}
+
+		res.json({ message: 'success' });
 	}
 
 	/**
