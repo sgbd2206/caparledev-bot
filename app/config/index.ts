@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+import dotenv, { DotenvParseOutput } from 'dotenv';
 import path from 'path';
 import fs from 'fs';
 
@@ -12,7 +12,7 @@ const paths: any = {
 
 const configPath: string = path.resolve(__dirname, paths[process.env.NODE_ENV || 'development']);
 
-const envConfig: dotenv.DotenvParseOutput = dotenv.parse(fs.readFileSync(configPath));
+const envConfig: DotenvParseOutput = dotenv.parse(fs.readFileSync(configPath));
 
 for (const k in envConfig) {
 	process.env[k] = envConfig[k];
