@@ -1,22 +1,6 @@
-import dotenv, { DotenvParseOutput } from 'dotenv';
-import path from 'path';
-import fs from 'fs';
+import dotenv from 'dotenv';
 
 dotenv.config();
-
-const paths: any = {
-	test: '../../.env.test',
-	development: '../../.env',
-	production: '../.env.prod',
-};
-
-const configPath: string = path.resolve(__dirname, paths[process.env.NODE_ENV || 'development']);
-
-const envConfig: DotenvParseOutput = dotenv.parse(fs.readFileSync(configPath));
-
-for (const k in envConfig) {
-	process.env[k] = envConfig[k];
-}
 
 const e: any = process.env;
 
