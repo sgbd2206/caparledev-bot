@@ -12,7 +12,7 @@ RUN mkdir -p /home/www && chmod -R 777 /home/www
 
 WORKDIR /home/www
 
-COPY build package.json ./
+COPY build package.json wait-for-it.sh ./
 
 RUN chmod +x wait-for-it.sh && npm install --no-cache --frozen-lockfile --production
 

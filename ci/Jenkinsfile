@@ -31,17 +31,13 @@ pipeline {
     }
     post {
         success {
-            steps {
-                script {
-                    echo "The build completed successfully!"
-                }
+            script {
+                echo "The build completed successfully!"
             }
         }
         failure {
-            steps {
-                script {
-                    echo "Fail to complete all the stages"
-                }
+            script {
+                echo "Fail to complete all the stages"
             }
         }
     }
