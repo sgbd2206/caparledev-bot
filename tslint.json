@@ -29,6 +29,7 @@
             "member-variable-declaration",
             "object-destructuring",
             "array-destructuring"
-        ]
+        ],
+        "import-name": false
     }
 }

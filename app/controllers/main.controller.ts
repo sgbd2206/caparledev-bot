@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-import {BOT_TWITTER_NAME, HASHTAG_TO_TRACK, TWITTER_CALLBACK_URL} from '../config';
+import { BOT_TWITTER_NAME, HASHTAG_TO_TRACK, TWITTER_CALLBACK_URL } from '../config';
 import { logger } from '../config/logger';
 
 import { Activity, TweetObject, UserAccessTokenResponse } from '../types';

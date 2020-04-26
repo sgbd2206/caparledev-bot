@@ -39,7 +39,7 @@ const accountSchema: Schema = new Schema({
 		type: Number,
 		required: true,
 		default: 0,
-	}
+	},
 },                                       {
 	timestamps: true,
 	collection: 'accounts',

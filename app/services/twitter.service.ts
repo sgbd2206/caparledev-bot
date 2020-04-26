@@ -1,7 +1,7 @@
 import Twitter, { RequestParams, ResponseData } from 'twitter';
 import { Response } from 'request';
 import request from 'request-promise';
-import queryString from 'querystring';
+import querystring from 'querystring';
 
 import { RequestTokenResponse, TwitterError } from '../types';
 
@@ -151,7 +151,7 @@ class TwitterService {
 			throw new Error(response.error);
 		}
 
-		const bodyParsed: RequestTokenResponse = queryString.parse(response.body) as any;
+		const bodyParsed: RequestTokenResponse = querystring.parse(response.body) as any;
 
 		// Store temporary token to performs matching with the token received through the callback URL
 		TwitterService.tempOauthToken = bodyParsed.oauth_token;
@@ -182,7 +182,7 @@ class TwitterService {
 
 		const response: any = await request.post(options);
 
-		return queryString.parse(response.body);
+		return querystring.parse(response.body);
 	}
 
 	/**
@@ -358,7 +358,7 @@ class TwitterService {
 								TwitterService.retweet(tweetId);
 
 								// TODO Notify registered account
-						})
+						});
 					}
 				});
 		});

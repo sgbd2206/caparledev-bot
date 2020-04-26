@@ -51,7 +51,7 @@ class RegistrationService {
 
 		if (registration) {
 			RegistrationModel.deleteOne({ userId: registration.userId })
-				.then((result): void => {
+				.then((result: any): void => {
 					// Respond the tweet with a sad message
 					TwitterService.replyToUser(registrationData.tweetId, registrationData.userScreenName, SUCCESS_UNREGISTER_MESSAGE);
 

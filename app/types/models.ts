@@ -22,7 +22,7 @@ export interface IAccount extends Document {
 }
 
 export interface AccountActivitySubscription {
-	environment: string,
-	application_id: string,
-	subscriptions: any[]
+	environment: string;
+	application_id: string;
+	subscriptions: any[];
 }

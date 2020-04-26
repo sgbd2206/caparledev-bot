@@ -18,7 +18,6 @@ import { AccountActivityService } from './services/account-activity.service';
 
 import { MainController } from './controllers/main.controller';
 
-
 const port: number = config.SERVER_PORT;
 const app: Application = express();
 

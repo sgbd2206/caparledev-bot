@@ -20,8 +20,6 @@ class Routes {
 	 * @returns void
 	 */
 	static init(app: express.Application): void {
-		const router: express.Router = express.Router();
-
 		// Express middleware
 		app.use(bodyParser.urlencoded({ extended: true }));
 		app.use(bodyParser.json());
