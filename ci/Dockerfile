@@ -18,4 +18,4 @@ RUN chmod +x wait-for-it.sh && npm install --no-cache --frozen-lockfile --produc
 
 EXPOSE 7432
 
-CMD ["./wait-for-it.sh", "mongodb:27017", "redisdb:6379", "-t", "15", "--", "node", "index.js"]
+CMD ["./wait-for-it.sh", "mongodb:27017", "-t", "15", "--", "node", "index.js"]
