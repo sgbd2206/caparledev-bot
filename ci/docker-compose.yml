@@ -15,6 +15,7 @@ services:
       - "7432:7432"
     links:
       - mongodb
+      - redisdb
     networks:
       - cpdbotnetwork
   mongodb:

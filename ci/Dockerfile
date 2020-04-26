@@ -12,10 +12,10 @@ RUN mkdir -p /home/www && chmod -R 777 /home/www
 
 WORKDIR /home/www
 
-COPY build package.json ./
+COPY build package.json wait-for-it.sh ./
 
 RUN chmod +x wait-for-it.sh && npm install --no-cache --frozen-lockfile --production
 
 EXPOSE 7432
 
-CMD ["./wait-for-it.sh", "mongodb:27017", "redisdb:6379", "-t", "15", "--", "node", "index.js"]
+CMD ["./wait-for-it.sh", "mongodb:27017", "-t", "15", "--", "node", "index.js"]
