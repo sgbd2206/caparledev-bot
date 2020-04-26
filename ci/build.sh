@@ -16,4 +16,4 @@ yarn
 ./node_modules/.bin/tsc -p tsconfig.json
 
 cp -r ./package.json /home
-cp -rf ./build /home
+cp -rf ${BUILD_FOLDER} /home
